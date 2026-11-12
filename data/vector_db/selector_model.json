@@ -1,0 +1,21 @@
+{
+  "feature": "new_writes",
+  "threshold": 1,
+  "left": {
+    "source": "candidate",
+    "samples": 226
+  },
+  "right": {
+    "feature": "delta_count",
+    "threshold": 0,
+    "left": {
+      "source": "candidate",
+      "samples": 44
+    },
+    "right": {
+      "source": "baseline",
+      "samples": 39
+    }
+  }
+}
+

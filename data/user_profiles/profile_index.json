@@ -1,0 +1,5 @@
+{
+  "description": "Local user profile cache indexed by state_hash or sample_id",
+  "profiles": {}
+}
+
