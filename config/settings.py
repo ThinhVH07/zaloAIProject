@@ -9,7 +9,13 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 WORKSPACE_ROOT = PROJECT_ROOT.parent.parent
 
 # Đường dẫn Dataset & Runtime của BTC / Local LLM
-DEFAULT_ROOT = Path(os.environ.get("LIFEMATE_DATA_ROOT", r"D:\train+public_test\train+public_test"))
+_CANDIDATE_ROOTS = [
+    Path(r"D:\BTTL\AI\train+public_test"),
+    Path(r"D:\train+public_test\train+public_test"),
+]
+DEFAULT_ROOT = Path(
+    os.environ.get("LIFEMATE_DATA_ROOT", str(next((p for p in _CANDIDATE_ROOTS if p.exists()), _CANDIDATE_ROOTS[0])))
+)
 RUNTIME_DIR = Path(os.environ.get("LIFEMATE_RUNTIME_DIR", str(WORKSPACE_ROOT / "work" / "llm")))
 ASR_HANDOFF_DIR = Path(os.environ.get("LIFEMATE_ASR_DIR", str(WORKSPACE_ROOT / "outputs" / "lifemate_asr" / "handoff")))
 DEV_REFERENCES_PATH = Path(

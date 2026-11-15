@@ -1,5 +1,11 @@
 """Tầng 1: Xử lý ASR, làm sạch văn bản & Entity RAG."""
-from src.asr_normalizer.entity_retriever import EntityRAG, Examples, PhraseExamples
+from src.asr_normalizer.entity_retriever import (
+    DynamicFewShotRAG,
+    EntityRAG,
+    Examples,
+    PhraseExamples,
+    ToolKnowledgeRAG,
+)
 from src.asr_normalizer.text_cleaner import (
     FILLER,
     NUMBER,
@@ -15,6 +21,7 @@ from src.asr_normalizer.text_cleaner import (
 )
 
 __all__ = [
+    "DynamicFewShotRAG",
     "EntityRAG",
     "Examples",
     "FILLER",
@@ -22,6 +29,7 @@ __all__ = [
     "PhraseExamples",
     "START",
     "TIME",
+    "ToolKnowledgeRAG",
     "all_strings",
     "clean_asr_text",
     "fold",

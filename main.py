@@ -26,6 +26,7 @@ from src.asr_normalizer.entity_retriever import EntityRAG, Examples, PhraseExamp
 from src.guardrails.self_correction import OutputGuardrail
 from src.mcp_agent.agent_executor import Agent, DirectAgent, MCPAgent, PlannedAgent
 from src.mcp_agent.mcp_server import MCPServer, load_btc_runtime
+from src.mcp_agent.task_planner import AgenticPlanner
 from src.router.intent_router import IntentRouter
 from src.utils.jsonl_writer import compact, dump, export_submission, read_jsonl, write_jsonl
 
@@ -63,10 +64,10 @@ def process_sample(sample: dict, env_simulator: MCPServer, local_only: bool = Fa
     agent = MCPAgent(profile, local_only=local_only)
     predicted_tools = agent.predict_tools(clean_text, sample=sample, env=env)
 
-    # Step 4: Guardrail & Validation Loop
-    predicted_tools = OutputGuardrail.fix_iso_time(predicted_tools)
+    # Step 4: Planning Optimization & Guardrail Validation Loop
+    allowed = env.allowed if env is not None else set()
+    predicted_tools = AgenticPlanner.optimize_plan(clean_text, predicted_tools, allowed_tools=allowed, env=env)
     predicted_tools = OutputGuardrail.filter_self_cancellation(clean_text, predicted_tools)
-    allowed = env.allowed if env is not None else None
     state = env.get_state() if env is not None else None
     predicted_tools = OutputGuardrail.inject_dependency_tools(
         predicted_tools, allowed_tools=allowed, state=state, transcript=clean_text
